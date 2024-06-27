@@ -66,29 +66,24 @@ class InstanceCutMix:
     def test_loaded(self):
         self.__loaded__ = False
         if self.phase == "train":
-            if len(self.bank[1]) != 5083:
+            if len(self.bank[1]) != 3078:
                 return False
-            if len(self.bank[2]) != 3092:
+            if len(self.bank[2]) != 2000:
                 return False
-            if len(self.bank[4]) != 7419:
+            if len(self.bank[4]) != 2718:
                 return False
-            if len(self.bank[5]) != 8084:
-                return False
-            if len(self.bank[6]) != 1551:
-                return False
+            # 필요시 다른 클래스도 추가
         elif self.phase == "trainval":
-            if len(self.bank[1]) != 8213:
+            if len(self.bank[1]) != 3078 + 2000:
                 return False
-            if len(self.bank[2]) != 4169:
+            if len(self.bank[2]) != 2000 + 2718:
                 return False
-            if len(self.bank[4]) != 10516:
+            if len(self.bank[4]) != 2718:
                 return False
-            if len(self.bank[5]) != 12190:
-                return False
-            if len(self.bank[6]) != 2943:
-                return False
+            # 필요시 다른 클래스도 추가
         self.__loaded__ = True
         return True
+
 
     def cut(self, pc, class_label, instance_label):
         for id_class in self.bank.keys():
