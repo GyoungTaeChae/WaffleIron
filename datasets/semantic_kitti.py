@@ -188,25 +188,12 @@ class PolarMix:
 
 class SemanticKITTI(PCDataset):
     CLASS_NAME = [
-        "car",  # 0
-        "bicycle",  # 1
-        "motorcycle",  # 2
-        "truck",  # 3
-        "other-vehicle",  # 4
-        "person",  # 5
-        "bicyclist",  # 6
-        "motorcyclist",  # 7
-        "road",  # 8
-        "parking",  # 9
-        "sidewalk",  # 10
-        "other-ground",  # 11
-        "building",  # 12
-        "fence",  # 13
-        "vegetation",  # 14
-        "trunk",  # 15
-        "terrain",  # 16
-        "pole",  # 17
-        "traffic-sign",  # 18
+        "unlabeled",  # 0
+        "car",  # 1
+        "floor",  # 2
+        "wall",  # 3
+        "ceiling",  # 4
+        "pillar"  # 5
     ]
 
     def __init__(self, **kwargs):
