@@ -53,5 +53,7 @@ optim:
 
 scheduler:
   min_lr: 0.00001
-  max_epoch: 45
+  # max_epoch: 45
+  max_epoch: 2
+  
   epoch_warmup: 4
