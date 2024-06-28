@@ -31,8 +31,7 @@ class InstanceCutMix:
         assert self.phase in ["train", "trainval"]
 
         # List of files containing instances for bicycle, motorcycle, person, bicyclist
-        self.bank = {1: []}
-        # self.bank = {1: [], 2: [], 4: [], 5: [], 6: []}
+        self.bank = {1: [], 2: [], 4: [], 5: [], 6: []}
         
         # Directory where to store instances
         self.rootdir = os.path.join(temp_dir, self.phase)
