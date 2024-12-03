@@ -18,6 +18,7 @@ import numpy as np
 from .lovasz import lovasz_softmax_flat
 from torch.nn.functional import softmax
 from torch.nn import Module, CrossEntropyLoss
+from .lovasz import *
 
 
 def fast_hist(pred, label, n):
@@ -47,17 +48,25 @@ class SemSegLoss(Module):
         self.nb_class = nb_class
         self.ignore_index = ignore_index
         self.lovasz_weight = lovasz_weight
-        self.ce = CrossEntropyLoss(ignore_index=ignore_index)
+        self.ce = CrossEntropyLoss(ignore_index=ignore_index) if nb_class > 1 else None
 
     def __call__(self, pred, true):
-        loss = self.ce(pred, true)
+        loss = 0
 
-        if self.lovasz_weight > 0:
-            where = true != self.ignore_index
-            if where.sum() > 0:
-                loss += self.lovasz_weight * lovasz_softmax_flat(
-                    softmax(pred[where], dim=1),
-                    true[where],
-                )
+        # Binary classification (single class with sigmoid + lovasz_hinge)
+        if self.nb_class == 1:
+            pred = torch.sigmoid(pred)  # Apply sigmoid for binary classification
+            loss = lovasz_hinge(pred, true.float())  # Ensure true is float for hinge loss
+
+        # Multi-class classification (softmax + lovasz_softmax_flat)
+        else:
+            loss = self.ce(pred, true)
+            if self.lovasz_weight > 0:
+                where = true != self.ignore_index
+                if where.sum() > 0:
+                    loss += self.lovasz_weight * lovasz_softmax_flat(
+                        softmax(pred[where], dim=1),
+                        true[where],
+                    )
 
         return loss

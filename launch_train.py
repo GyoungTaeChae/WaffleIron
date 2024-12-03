@@ -26,6 +26,7 @@ from utils.scheduler import WarmupCosine
 from utils.trainer import TrainingManager
 from waffleiron.segmenter import Segmenter
 from datasets import LIST_DATASETS, Collate
+from utils.lovasz import lovasz_hinge
 
 
 def load_model_config(file):
@@ -219,6 +220,7 @@ def distributed_training(gpu, ngpus_per_node, args, config):
     loss = SemSegLoss(
         config["classif"]["nb_class"],
         lovasz_weight=config["loss"]["lovasz"],
+        ignore_index=0,
     ).cuda(args.gpu)
 
     # --- Sets the learning rate to the initial LR decayed by 10 every 30 epochs
@@ -312,13 +314,13 @@ def get_default_parser():
         "--dataset",
         type=str,
         help="Path to dataset",
-        default="nuscenes",
+        default="semantic_kitti",
     )
     parser.add_argument(
         "--path_dataset",
         type=str,
         help="Path to dataset",
-        default="/datasets_local/nuscenes/",
+        default="/dataset/",
     )
     parser.add_argument(
         "--log_path", type=str, required=True, help="Path to log folder"
@@ -330,7 +332,7 @@ def get_default_parser():
         "--seed", default=None, type=int, help="Seed for initializing training"
     )
     parser.add_argument(
-        "--gpu", default=None, type=int, help="Set to any number to use gpu 0"
+        "--gpu", default=0, type=int, help="Set to any number to use gpu 0"
     )
     parser.add_argument(
         "--multiprocessing-distributed",

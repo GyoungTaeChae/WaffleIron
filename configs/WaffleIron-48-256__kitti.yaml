@@ -19,7 +19,7 @@ waffleiron: # Architecture of the backbone
   drop: 0.2
 
 classif: # Architecture of the classifcation layer, after WaffleIron
-  nb_class: 5      # Number of classes on nuscenes (after removing the ignore class)
+  nb_class: 1      # Number of classes on nuscenes (after removing the ignore class)
 
 embedding: # Architecture of the embedding layer, before WaffleIron
   input_feat:       # List of features on each point
@@ -54,6 +54,6 @@ optim:
 scheduler:
   min_lr: 0.00001
   # max_epoch: 45
-  max_epoch: 20
+  max_epoch: 40
   
   epoch_warmup: 4
