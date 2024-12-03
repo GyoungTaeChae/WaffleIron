@@ -307,7 +307,7 @@ def main(args, config):
         # Simply call main_worker function
         distributed_training(args.gpu, ngpus_per_node, args, config)
 
-
+## test
 def get_default_parser():
     parser = argparse.ArgumentParser(description="Training")
     parser.add_argument(
@@ -320,7 +320,7 @@ def get_default_parser():
         "--path_dataset",
         type=str,
         help="Path to dataset",
-        default="/dataset/",
+        default="/dataset",
     )
     parser.add_argument(
         "--log_path", type=str, required=True, help="Path to log folder"
